@@ -1,0 +1,79 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MyContacts API",
+        "description": "Documentação da API MyContacts.",
+        "contact": {
+            "email": "gabriel@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/person": {
+            "get": {
+                "tags": [
+                    "Person"
+                ],
+                "summary": "Lista todas as pessoas",
+                "operationId": "ea2735a915d1a03e377b621750e104d0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pessoas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Gabriel Anselmo"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "gabriel@example.com"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma pessoa encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nenhuma pessoa encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Person",
+            "description": "Person"
+        }
+    ]
+}

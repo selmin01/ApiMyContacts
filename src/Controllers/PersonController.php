@@ -10,7 +10,12 @@ class PersonController
     public function getAllPerson(Application $app)
     {
         $people = $app['db']->executeQuery('SELECT * FROM person')->fetchAllAssociative();
-        return $app->json($people, 200);
+        return $app->json([
+            'success' => true,
+            'data' => $people,
+            'message' => 'People retrieved successfully'
+        ], 200);
+        // return $app->json($people, 200);
     }
 
     public function createPerson(Request $request, Application $app)
