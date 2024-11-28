@@ -7,9 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PersonController
 {
+
     public function getAllPerson(Application $app)
     {
         $people = $app['db']->executeQuery('SELECT * FROM person')->fetchAllAssociative();
+
         return $app->json([
             'success' => true,
             'data' => $people,
