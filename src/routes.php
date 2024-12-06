@@ -1,6 +1,21 @@
 <?php
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+// Rota global para capturar OPTIONS
+$app->match("{url}", function (Request $request) {
+    if ($request->getMethod() === "OPTIONS") {
+        $response = new Response();
+        $response->headers->set("Access-Control-Allow-Origin", "*");
+        $response->headers->set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        $response->headers->set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        return $response;
+    }
+
+    return new Response("Method Not Allowed", 405);
+})->assert("url", ".*")->method("OPTIONS");
 
 // Verifica se a API está rodando
 $app->get('/api/health', function () {
@@ -26,6 +41,8 @@ $app->get('/swagger-ui', function () {
 // Rotas para o controlador de Pessoa
 $app->get('/api/person', 'Controllers\PersonController::getAllPerson');
 $app->post('/api/person', 'Controllers\PersonController::createPerson');
+$app->delete('/api/person/{id}', 'Controllers\PersonController::deletePerson');
+
 
 // Rotas para o controlador de Contato
 $app->get('/api/contact', 'Controllers\ContactController::getAllContacts');
