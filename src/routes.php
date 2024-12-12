@@ -40,7 +40,9 @@ $app->get('/swagger-ui', function () {
 
 // Rotas para o controlador de Pessoa
 $app->get('/api/person', 'Controllers\PersonController::getAllPerson');
+$app->get('/api/person/{id}', 'Controllers\PersonController::getPersonById');
 $app->post('/api/person', 'Controllers\PersonController::createPerson');
+$app->put('/api/person/{id}', 'Controllers\PersonController::updatePerson');
 $app->delete('/api/person/{id}', 'Controllers\PersonController::deletePerson');
 
 
