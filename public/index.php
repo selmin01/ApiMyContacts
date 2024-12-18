@@ -24,9 +24,14 @@ $app['debug'] = true;
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/database.php';
 
+
 // Registre os headers globais
 $headersMiddleware = require __DIR__ . '/../config/headers.php';
 $headersMiddleware($app);
+
+$loggingConfig = require __DIR__ . '/../config/logging.php';
+$loggingConfig($app);
+
 
 // // Configuração de logs
 // $loggingConfig = require __DIR__ . '/../config/logging.php';

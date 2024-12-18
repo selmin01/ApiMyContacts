@@ -1,2 +1,0 @@
-[2024-11-26T18:05:54.016999+00:00] app.INFO: Matched route "{route}". {"route":"GET_api_person","route_parameters":{"_controller":"Controllers\\PersonController::getAllPerson","_route":"GET_api_person"},"request_uri":"http://localhost:8000/api/person","method":"GET"} []
-[2024-11-26T18:05:55.246658+00:00] app.INFO: Matched route "{route}". {"route":"GET_api_person","route_parameters":{"_controller":"Controllers\\PersonController::getAllPerson","_route":"GET_api_person"},"request_uri":"http://localhost:8000/api/person","method":"GET"} []

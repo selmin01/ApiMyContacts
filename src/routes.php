@@ -49,6 +49,7 @@ $app->delete('/api/person/{id}', 'Controllers\PersonController::deletePerson');
 // Rotas para o controlador de Contato
 $app->get('/api/contact', 'Controllers\ContactController::getAllContacts');
 $app->get('/api/contact/{id}', 'Controllers\ContactController::getContactById');
+$app->get('/api/contact/all/{personId}', 'Controllers\ContactController::getContactsByPersonId');
 $app->post('/api/contact', 'Controllers\ContactController::createContact');
 $app->put('/api/contact/{id}', 'Controllers\ContactController::updateContact');
 $app->delete('/api/contact/{id}', 'Controllers\ContactController::deleteContact');
