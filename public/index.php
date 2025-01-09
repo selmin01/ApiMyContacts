@@ -32,11 +32,6 @@ $headersMiddleware($app);
 $loggingConfig = require __DIR__ . '/../config/logging.php';
 $loggingConfig($app);
 
-
-// // Configuração de logs
-// $loggingConfig = require __DIR__ . '/../config/logging.php';
-// $loggingConfig($app);
-
 require_once __DIR__ . '/../src/routes.php';
 
 // Exemplo de log inicial

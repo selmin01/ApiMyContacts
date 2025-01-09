@@ -18,24 +18,19 @@ $app->match("{url}", function (Request $request) {
 })->assert("url", ".*")->method("OPTIONS");
 
 // Verifica se a API está rodando
-$app->get('/api/health', function () {
+$app->get('/', function () {
     return new JsonResponse(['status' => 'API is running'], 200);
 });
 
-// // Rota para geração da documentação Swagger
-// $app->get('/api/docs', function () use ($app) {
-//     try {
-//         // Scaneia apenas o diretório 'src/Swagger'
-//         $swagger = \OpenApi\Generator::scan([__DIR__ . '/Swagger']);
-//         return new JsonResponse(json_decode($swagger->toJson()), 200);
-//     } catch (\Exception $e) {
-//         return new JsonResponse(['error' => $e->getMessage()], 500);
-//     }
+// $app->get('/docs', function () {
+//     return new Symfony\Component\HttpFoundation\RedirectResponse('/swagger-ui/index.html');
+// });
+// $app->get('/docs', function () {
+//     return new Symfony\Component\HttpFoundation\RedirectResponse('/swagger-ui/index.html', 302);
 // });
 
-// Redireciona para a interface do Swagger UI
-$app->get('/swagger-ui', function () {
-    return new Symfony\Component\HttpFoundation\RedirectResponse('/swagger-ui/index.html');
+$app->get('/docs', function () use ($app) {
+    return $app->redirect('/swagger-ui/index.html');
 });
 
 // Rotas para o controlador de Pessoa

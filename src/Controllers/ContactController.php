@@ -21,7 +21,7 @@ class ContactController
     // GET: Retrieve all contacts
     public function getAllContacts(Application $app)
     {
-        $contacts = $app['db']->executeQuery('SELECT * FROM contato')->fetchAllAssociative();
+        $contacts = $app['db']->executeQuery('SELECT * FROM contact')->fetchAllAssociative();
 
         return $app->json([
             'success' => true,
@@ -37,6 +37,7 @@ class ContactController
 
         if (!$contact) {
             return $app->json(['success' => false, 'message' => 'Contact not found'], 404);
+            // return new JsonResponse(['error' => 'Contato não encontrada'], 404);
         }
 
         return $app->json([
@@ -44,6 +45,11 @@ class ContactController
             'data' => $contact,
             'message' => 'Contact retrieved successfully'
         ], 200);
+        // return new JsonResponse([
+        //     'success' => true,
+        //     'data' => $contact,
+        //     'message' => 'Contato encontrado com sucesso'
+        // ], 200);
     }
 
     public function getContactsByPersonId($personId, Application $app)
@@ -79,18 +85,18 @@ class ContactController
         $data = json_decode($request->getContent(), true);
 
         // Checkpoint: Logando os dados recebidos
-        $app['logger']->info('Dados recebidos para criar contato', $data);
+        // $app['logger']->info('Dados recebidos para criar contato', $data);
 
         if (empty($data['valor'])) {
             return new JsonResponse(['error' => 'The "valor" field is mandatory.'], 400);
         }
-        // Verifica se o nome já existe no banco
+
         $existingContact = $app['db']->executeQuery('SELECT * FROM contact WHERE value = ?', [$data['valor']])
                                     ->fetchAssociative();
         if ($existingContact) {
-            return $app->json(['error' => false, 'message' => 'Este contato já está cadastrado.'], 3003);
+            // return $app->json(['error' => false, 'message' => 'Este contato já está cadastrado.'], 3003);
+            return new JsonResponse(['error' => 'Este contato já está cadastrado.'], 400);
         }
-
 
         try {
             // Inserir o contato no banco de dados
@@ -102,10 +108,7 @@ class ContactController
             ]);
             // Resposta de sucesso
             return $app->json(['success' => true, 'message' => 'Contact created successfully'], 201);
-    
         } catch (\Exception $e) {
-            // Logando o erro
-            $app['logger']->error('Erro ao criar contato', ['error' => $e->getMessage()]);
             // Resposta de erro
             return $app->json(['success' => false, 'message' => 'Erro ao criar contato'], 500);
         }
@@ -115,21 +118,28 @@ class ContactController
     public function updateContact($id, Request $request, Application $app)
     {
         $data = json_decode($request->getContent(), true);
+        // $app['logger']->info('>> Contato edição', $data);
 
         $contact = $app['db']->executeQuery('SELECT * FROM contact WHERE id = ?', [$id])->fetchAssociative();
 
         if (!$contact) {
-            return $app->json(['success' => false, 'message' => 'Contact not found'], 404);
+            return new JsonResponse(['error' => 'Contact not found'], 404);
         }
 
-        $app['db']->update('contato', [
-            'tipo' => $data['tipo'],
-            'descricao' => $data['descricao'] ?? null,
-            'valor' => $data['valor'],
-            'pessoa_id' => $data['pessoa_id']
+        $existingContact = $app['db']->executeQuery('SELECT * FROM contact WHERE value = ?', [$data['value']])
+                                    ->fetchAssociative();
+        if ($existingContact) {
+            return new JsonResponse(['error' => 'Este contato já está cadastrado.'], 400);
+        }
+
+        $app['db']->update('Contact', [
+            'type' => $data['type'],
+            'description' => $data['description'] ?? null,
+            'value' => $data['value'],
+            'person_id' => $data['person_id']
         ], ['id' => $id]);
 
-        return $app->json(['success' => true, 'message' => 'Contact updated successfully'], 200);
+        return new JsonResponse(['success' => 'Contact updated successfully'], 200);
     }
 
     // DELETE: Delete a contact
